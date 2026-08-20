@@ -1,0 +1,7 @@
+SELECT TOP (100) [name]
+,[surname]
+,[login]
+,[age]
+,[position]
+,[gross_salary]
+ FROM [silver].[employee]
