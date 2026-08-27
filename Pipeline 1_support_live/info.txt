@@ -1,0 +1,6 @@
+selected resource name:		Pipeline 1
+selected resource type:		pipeline
+workspace name:			dcdatahubsynapsesandbox
+workspace location:		westeurope
+subscription id:		d30c5e9d-5bcb-4d34-a45a-635900da7407
+time of download (UTC):		Wed, 26 Aug 2026 12:23:14 GMT

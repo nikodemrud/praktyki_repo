@@ -1,0 +1,23 @@
+{
+    "now": "2026-08-26T12:23:14.775Z",
+    "perfNow": 19034468.699999988,
+    "diagnosticCorrelation": "ef76e540-ead3-4f9e-b3ea-10978d385d94",
+    "source": "DownloadSupportFiles",
+    "environment": {
+        "productName": "a365",
+        "buildVersion": "26.0729.07",
+        "environmentType": 9,
+        "resourceName": "dcdatahubsynapsesandbox",
+        "resourceRegion": "westeurope",
+        "resourceGroup": "dc-datahub-sandbox",
+        "subscriptionId": "d30c5e9d-5bcb-4d34-a45a-635900da7407",
+        "sessionId": "PvL1C3HpPw21c4yC+eqoz6",
+        "operationId": "97mRB",
+        "gitType": "live",
+        "loggingKey": "c336410c-2e0c-4197-aeaf-359256bba109"
+    },
+    "additionalInfo": {
+        "selectedResource": "Pipeline 1",
+        "selectedResourceType": "pipeline"
+    }
+}

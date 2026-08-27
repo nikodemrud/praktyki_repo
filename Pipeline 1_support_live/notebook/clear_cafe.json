@@ -1,0 +1,229 @@
+{
+    "name": "clear_cafe",
+    "properties": {
+        "nbformat": 4,
+        "nbformat_minor": 2,
+        "bigDataPool": {
+            "referenceName": "SandboxSP",
+            "type": "BigDataPoolReference"
+        },
+        "sessionProperties": {
+            "driverMemory": "28g",
+            "driverCores": 4,
+            "executorMemory": "28g",
+            "executorCores": 4,
+            "numExecutors": 2,
+            "conf": {
+                "spark.dynamicAllocation.enabled": "false",
+                "spark.dynamicAllocation.minExecutors": "2",
+                "spark.dynamicAllocation.maxExecutors": "2",
+                "spark.autotune.trackingId": "5883d58b-0059-4e38-9a7f-5b0043d63b39"
+            }
+        },
+        "metadata": {
+            "saveOutput": true,
+            "synapse_widget": {
+                "version": "0.1"
+            },
+            "enableDebugMode": false,
+            "kernelspec": {
+                "name": "synapse_pyspark",
+                "display_name": "Synapse PySpark"
+            },
+            "language_info": {
+                "name": "python"
+            },
+            "a365ComputeOptions": {
+                "id": "/subscriptions/d30c5e9d-5bcb-4d34-a45a-635900da7407/resourceGroups/dc-datahub-sandbox/providers/Microsoft.Synapse/workspaces/dcdatahubsynapsesandbox/bigDataPools/SandboxSP",
+                "name": "SandboxSP",
+                "type": "Spark",
+                "endpoint": "https://dcdatahubsynapsesandbox.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/SandboxSP",
+                "auth": {
+                    "type": "AAD",
+                    "authResource": "https://dev.azuresynapse.net"
+                },
+                "sparkVersion": "3.5",
+                "nodeCount": 10,
+                "cores": 4,
+                "memory": 28,
+                "automaticScaleJobs": false
+            },
+            "sessionKeepAliveTimeout": 30
+        },
+        "cells": [
+            {
+                "cell_type": "code",
+                "source": [
+                    "import json"
+                ],
+                "outputs": [
+                    {
+                        "output_type": "display_data",
+                        "data": {
+                            "application/vnd.livy.statement-meta+json": {
+                                "spark_pool": "SandboxSP",
+                                "statement_id": 8,
+                                "statement_ids": [
+                                    8
+                                ],
+                                "state": "finished",
+                                "livy_statement_state": "available",
+                                "spark_jobs_updating": false,
+                                "spark_jobs": null,
+                                "session_id": "637",
+                                "normalized_state": "finished",
+                                "queued_time": "2026-08-26T09:13:24.2826133Z",
+                                "session_start_time": null,
+                                "execution_start_time": "2026-08-26T09:13:24.2837899Z",
+                                "execution_finish_time": "2026-08-26T09:13:24.5032306Z",
+                                "parent_msg_id": "b397797e-c8a4-40c5-bfee-89e63b68476b"
+                            },
+                            "text/plain": "StatementMeta(SandboxSP, 637, 8, Finished, Available, Finished, False)"
+                        }
+                    }
+                ],
+                "execution_count": 9
+            },
+            {
+                "cell_type": "code",
+                "source": [
+                    "df_cafe = spark.read.csv(\"abfss://source@dcdatahubsynapsessbdls.dfs.core.windows.net/new_data/dirty_cafe_sales.csv\", header=True, inferSchema=True , sep=\",\")"
+                ],
+                "outputs": [
+                    {
+                        "output_type": "display_data",
+                        "data": {
+                            "application/vnd.livy.statement-meta+json": {
+                                "spark_pool": "SandboxSP",
+                                "statement_id": 9,
+                                "statement_ids": [
+                                    9
+                                ],
+                                "state": "finished",
+                                "livy_statement_state": "available",
+                                "spark_jobs_updating": false,
+                                "spark_jobs": null,
+                                "session_id": "637",
+                                "normalized_state": "finished",
+                                "queued_time": "2026-08-26T09:13:24.3998011Z",
+                                "session_start_time": null,
+                                "execution_start_time": "2026-08-26T09:13:24.5255669Z",
+                                "execution_finish_time": "2026-08-26T09:13:29.8753401Z",
+                                "parent_msg_id": "da90b06c-2c17-4966-8951-753ad0b5fb71"
+                            },
+                            "text/plain": "StatementMeta(SandboxSP, 637, 9, Finished, Available, Finished, False)"
+                        }
+                    }
+                ],
+                "execution_count": 10
+            },
+            {
+                "cell_type": "code",
+                "source": [
+                    "location_rows = df_cafe.select(\"Location\").distinct().collect()"
+                ],
+                "outputs": [
+                    {
+                        "output_type": "display_data",
+                        "data": {
+                            "application/vnd.livy.statement-meta+json": {
+                                "spark_pool": "SandboxSP",
+                                "statement_id": 10,
+                                "statement_ids": [
+                                    10
+                                ],
+                                "state": "finished",
+                                "livy_statement_state": "available",
+                                "spark_jobs_updating": false,
+                                "spark_jobs": null,
+                                "session_id": "637",
+                                "normalized_state": "finished",
+                                "queued_time": "2026-08-26T09:13:24.4631311Z",
+                                "session_start_time": null,
+                                "execution_start_time": "2026-08-26T09:13:29.8943322Z",
+                                "execution_finish_time": "2026-08-26T09:13:38.5274058Z",
+                                "parent_msg_id": "d462deac-f2de-4a92-b429-f7d780f9fdde"
+                            },
+                            "text/plain": "StatementMeta(SandboxSP, 637, 10, Finished, Available, Finished, False)"
+                        }
+                    }
+                ],
+                "execution_count": 11
+            },
+            {
+                "cell_type": "code",
+                "source": [
+                    "location_list = [\n",
+                    "    row.Location for row in location_rows \n",
+                    "    if row.Location is not None and row.Location != \"UNKNOWN\"\n",
+                    "]"
+                ],
+                "outputs": [
+                    {
+                        "output_type": "display_data",
+                        "data": {
+                            "application/vnd.livy.statement-meta+json": {
+                                "spark_pool": "SandboxSP",
+                                "statement_id": 13,
+                                "statement_ids": [
+                                    13
+                                ],
+                                "state": "finished",
+                                "livy_statement_state": "available",
+                                "spark_jobs_updating": false,
+                                "spark_jobs": null,
+                                "session_id": "637",
+                                "normalized_state": "finished",
+                                "queued_time": "2026-08-26T09:13:54.0430157Z",
+                                "session_start_time": null,
+                                "execution_start_time": "2026-08-26T09:13:54.0441832Z",
+                                "execution_finish_time": "2026-08-26T09:13:54.2925138Z",
+                                "parent_msg_id": "ac64226f-3bb7-4bbe-a996-1fef726e9376"
+                            },
+                            "text/plain": "StatementMeta(SandboxSP, 637, 13, Finished, Available, Finished, False)"
+                        }
+                    }
+                ],
+                "execution_count": 14
+            },
+            {
+                "cell_type": "code",
+                "source": [
+                    "mssparkutils.notebook.exit(json.dumps(location_list))"
+                ],
+                "outputs": [
+                    {
+                        "output_type": "display_data",
+                        "data": {
+                            "application/vnd.livy.statement-meta+json": {
+                                "spark_pool": "SandboxSP",
+                                "statement_id": 12,
+                                "statement_ids": [
+                                    12
+                                ],
+                                "state": "finished",
+                                "livy_statement_state": "available",
+                                "spark_jobs_updating": false,
+                                "spark_jobs": null,
+                                "session_id": "637",
+                                "normalized_state": "finished",
+                                "queued_time": "2026-08-26T09:13:24.5546471Z",
+                                "session_start_time": null,
+                                "execution_start_time": "2026-08-26T09:13:38.8722671Z",
+                                "execution_finish_time": "2026-08-26T09:13:39.428027Z",
+                                "parent_msg_id": "78531f50-deef-4db3-ae60-596d184f0542"
+                            },
+                            "text/plain": "StatementMeta(SandboxSP, 637, 12, Finished, Available, Finished, False)"
+                        }
+                    },
+                    {
+                        "name": "stdout",
+                        "output_type": "stream",
+                        "text": "ExitValue: [\"In-store\", \"ERROR\", \"Takeaway\"]"
+                    }
+                ],
+                "execution_count": 13
+            }
+        ]
+    }
+}

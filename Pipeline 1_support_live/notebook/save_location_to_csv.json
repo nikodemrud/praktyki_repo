@@ -1,0 +1,193 @@
+{
+    "name": "save_location_to_csv",
+    "properties": {
+        "nbformat": 4,
+        "nbformat_minor": 2,
+        "bigDataPool": {
+            "referenceName": "SandboxSP",
+            "type": "BigDataPoolReference"
+        },
+        "sessionProperties": {
+            "driverMemory": "28g",
+            "driverCores": 4,
+            "executorMemory": "28g",
+            "executorCores": 4,
+            "numExecutors": 2,
+            "conf": {
+                "spark.dynamicAllocation.enabled": "false",
+                "spark.dynamicAllocation.minExecutors": "2",
+                "spark.dynamicAllocation.maxExecutors": "2",
+                "spark.autotune.trackingId": "75ef33b0-b0da-467b-9dc8-3e876f708c56"
+            }
+        },
+        "metadata": {
+            "saveOutput": true,
+            "synapse_widget": {
+                "version": "0.1"
+            },
+            "enableDebugMode": false,
+            "kernelspec": {
+                "name": "synapse_pyspark",
+                "display_name": "Synapse PySpark"
+            },
+            "language_info": {
+                "name": "python"
+            },
+            "a365ComputeOptions": {
+                "id": "/subscriptions/d30c5e9d-5bcb-4d34-a45a-635900da7407/resourceGroups/dc-datahub-sandbox/providers/Microsoft.Synapse/workspaces/dcdatahubsynapsesandbox/bigDataPools/SandboxSP",
+                "name": "SandboxSP",
+                "type": "Spark",
+                "endpoint": "https://dcdatahubsynapsesandbox.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/SandboxSP",
+                "auth": {
+                    "type": "AAD",
+                    "authResource": "https://dev.azuresynapse.net"
+                },
+                "sparkVersion": "3.5",
+                "nodeCount": 10,
+                "cores": 4,
+                "memory": 28,
+                "automaticScaleJobs": false
+            },
+            "sessionKeepAliveTimeout": 30
+        },
+        "cells": [
+            {
+                "cell_type": "code",
+                "source": [
+                    "df_cafe = spark.read.csv(\"abfss://source@dcdatahubsynapsessbdls.dfs.core.windows.net/new_data/dirty_cafe_sales.csv\", header=True, inferSchema=True , sep=\",\")"
+                ],
+                "outputs": [
+                    {
+                        "output_type": "display_data",
+                        "data": {
+                            "application/vnd.livy.statement-meta+json": {
+                                "spark_pool": "SandboxSP",
+                                "statement_id": 11,
+                                "statement_ids": [
+                                    11
+                                ],
+                                "state": "finished",
+                                "livy_statement_state": "available",
+                                "spark_jobs_updating": false,
+                                "spark_jobs": null,
+                                "session_id": "638",
+                                "normalized_state": "finished",
+                                "queued_time": "2026-08-26T10:15:52.3853999Z",
+                                "session_start_time": null,
+                                "execution_start_time": "2026-08-26T10:15:52.4754796Z",
+                                "execution_finish_time": "2026-08-26T10:15:54.3871228Z",
+                                "parent_msg_id": "eeb7a707-a585-476f-8575-6f6b9a13f5a9"
+                            },
+                            "text/plain": "StatementMeta(SandboxSP, 638, 11, Finished, Available, Finished, False)"
+                        }
+                    }
+                ],
+                "execution_count": 10
+            },
+            {
+                "cell_type": "code",
+                "source": [
+                    "df_clean = df_cafe.filter(df_cafe[\"Total Spent\"] != \"ERROR\")"
+                ],
+                "outputs": [
+                    {
+                        "output_type": "display_data",
+                        "data": {
+                            "application/vnd.livy.statement-meta+json": {
+                                "spark_pool": "SandboxSP",
+                                "statement_id": 12,
+                                "statement_ids": [
+                                    12
+                                ],
+                                "state": "finished",
+                                "livy_statement_state": "available",
+                                "spark_jobs_updating": false,
+                                "spark_jobs": null,
+                                "session_id": "638",
+                                "normalized_state": "finished",
+                                "queued_time": "2026-08-26T10:15:52.4263759Z",
+                                "session_start_time": null,
+                                "execution_start_time": "2026-08-26T10:15:54.4050905Z",
+                                "execution_finish_time": "2026-08-26T10:15:54.6486604Z",
+                                "parent_msg_id": "5cb2084e-ffb3-4eed-bb6b-a16da8d66630"
+                            },
+                            "text/plain": "StatementMeta(SandboxSP, 638, 12, Finished, Available, Finished, False)"
+                        }
+                    }
+                ],
+                "execution_count": 11
+            },
+            {
+                "cell_type": "code",
+                "source": [
+                    "df_final = df_clean.filter(df_clean[\"Location\"] == current_location)"
+                ],
+                "outputs": [
+                    {
+                        "output_type": "display_data",
+                        "data": {
+                            "application/vnd.livy.statement-meta+json": {
+                                "spark_pool": "SandboxSP",
+                                "statement_id": 13,
+                                "statement_ids": [
+                                    13
+                                ],
+                                "state": "finished",
+                                "livy_statement_state": "available",
+                                "spark_jobs_updating": false,
+                                "spark_jobs": null,
+                                "session_id": "638",
+                                "normalized_state": "finished",
+                                "queued_time": "2026-08-26T10:15:52.4809725Z",
+                                "session_start_time": null,
+                                "execution_start_time": "2026-08-26T10:15:54.6737689Z",
+                                "execution_finish_time": "2026-08-26T10:15:54.9230362Z",
+                                "parent_msg_id": "d58770cd-829b-4f75-a8a2-d2f3d1438620"
+                            },
+                            "text/plain": "StatementMeta(SandboxSP, 638, 13, Finished, Available, Finished, False)"
+                        }
+                    }
+                ],
+                "execution_count": 12
+            },
+            {
+                "cell_type": "code",
+                "source": [
+                    "df_final.show()"
+                ],
+                "outputs": [
+                    {
+                        "output_type": "display_data",
+                        "data": {
+                            "application/vnd.livy.statement-meta+json": {
+                                "spark_pool": "SandboxSP",
+                                "statement_id": 14,
+                                "statement_ids": [
+                                    14
+                                ],
+                                "state": "finished",
+                                "livy_statement_state": "available",
+                                "spark_jobs_updating": false,
+                                "spark_jobs": null,
+                                "session_id": "638",
+                                "normalized_state": "finished",
+                                "queued_time": "2026-08-26T10:15:52.5390123Z",
+                                "session_start_time": null,
+                                "execution_start_time": "2026-08-26T10:15:54.9516769Z",
+                                "execution_finish_time": "2026-08-26T10:15:56.0732366Z",
+                                "parent_msg_id": "7d97ba9f-a1e8-43c0-94dd-e548f26da7ae"
+                            },
+                            "text/plain": "StatementMeta(SandboxSP, 638, 14, Finished, Available, Finished, False)"
+                        }
+                    },
+                    {
+                        "name": "stdout",
+                        "output_type": "stream",
+                        "text": "+--------------+--------+--------+--------------+-----------+--------------+--------+----------------+\n|Transaction ID|    Item|Quantity|Price Per Unit|Total Spent|Payment Method|Location|Transaction Date|\n+--------------+--------+--------+--------------+-----------+--------------+--------+----------------+\n|   TXN_4977031|    Cake|       4|           3.0|       12.0|          Cash|In-store|      2023-05-16|\n|   TXN_3160411|  Coffee|       2|           2.0|        4.0|Digital Wallet|In-store|      2023-06-11|\n|   TXN_2064365|Sandwich|       5|           4.0|       20.0|          NULL|In-store|      2023-12-31|\n|   TXN_7619095|Sandwich|       2|           4.0|        8.0|          Cash|In-store|      2023-05-03|\n|   TXN_8915701|   ERROR|       2|           1.5|        3.0|          NULL|In-store|      2023-03-21|\n|   TXN_2847255|   Salad|       3|           5.0|       15.0|   Credit Card|In-store|      2023-11-15|\n|   TXN_6769710|   Juice|       2|           3.0|        6.0|          Cash|In-store|      2023-02-24|\n|   TXN_3522028|Smoothie|   ERROR|           4.0|       20.0|          Cash|In-store|      2023-04-04|\n|   TXN_9400181|Sandwich|       5|           4.0|       20.0|          Cash|In-store|      2023-06-03|\n|   TXN_5183041|  Cookie|       5|           1.0|        5.0|   Credit Card|In-store|      2023-04-20|\n|   TXN_9677376|Smoothie|       4|           4.0|       16.0|          NULL|In-store|      2023-08-15|\n|   TXN_6855453| UNKNOWN|       4|           3.0|       12.0|          NULL|In-store|      2023-07-17|\n|   TXN_1080432|   Salad|       2|           5.0|       10.0|   Credit Card|In-store|      2023-04-29|\n|   TXN_2083138|Smoothie|       3|           4.0|       12.0|          NULL|In-store|      2023-04-17|\n|   TXN_8078640|   Juice|       4|           3.0|       12.0|Digital Wallet|In-store|      2023-11-03|\n|   TXN_2080895|    Cake| UNKNOWN|           3.0|        3.0|Digital Wallet|In-store|      2023-04-19|\n|   TXN_8813311|   Juice|       5|           3.0|       15.0|          NULL|In-store|      2023-10-07|\n|   TXN_8051289|    NULL|       1|           3.0|        3.0|          NULL|In-store|      2023-10-09|\n|   TXN_8427104|   Salad|       2|         ERROR|       10.0|          NULL|In-store|      2023-10-27|\n|   TXN_8471743|   ERROR|       5|           3.0|       15.0|Digital Wallet|In-store|      2023-04-06|\n+--------------+--------+--------+--------------+-----------+--------------+--------+----------------+\nonly showing top 20 rows\n\n"
+                    }
+                ],
+                "execution_count": 13
+            }
+        ]
+    }
+}

@@ -1,0 +1,107 @@
+{
+    "name": "Pipeline 1",
+    "properties": {
+        "activities": [
+            {
+                "name": "LaunchData",
+                "type": "SetVariable",
+                "dependsOn": [],
+                "policy": {
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "variableName": "v_trigger_date",
+                    "value": {
+                        "value": "@utcNow()",
+                        "type": "Expression"
+                    }
+                }
+            },
+            {
+                "name": "ClearData",
+                "type": "SynapseNotebook",
+                "dependsOn": [
+                    {
+                        "activity": "LaunchData",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "timeout": "0.12:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "notebook": {
+                        "referenceName": "clear_cafe",
+                        "type": "NotebookReference"
+                    },
+                    "snapshot": true
+                }
+            },
+            {
+                "name": "ForEachLocation",
+                "type": "ForEach",
+                "dependsOn": [
+                    {
+                        "activity": "ClearData",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "userProperties": [],
+                "typeProperties": {
+                    "items": {
+                        "value": "@json(activity('ClearData').output.status.Output.result.exitValue)",
+                        "type": "Expression"
+                    },
+                    "activities": [
+                        {
+                            "name": "SaveLocationToCsv",
+                            "type": "SynapseNotebook",
+                            "dependsOn": [],
+                            "policy": {
+                                "timeout": "0.12:00:00",
+                                "retry": 0,
+                                "retryIntervalInSeconds": 30,
+                                "secureOutput": false,
+                                "secureInput": false
+                            },
+                            "userProperties": [],
+                            "typeProperties": {
+                                "notebook": {
+                                    "referenceName": "save_location_to_csv",
+                                    "type": "NotebookReference"
+                                },
+                                "parameters": {
+                                    "current_location": {
+                                        "value": {
+                                            "value": "@item()",
+                                            "type": "Expression"
+                                        },
+                                        "type": "string"
+                                    }
+                                },
+                                "snapshot": true
+                            }
+                        }
+                    ]
+                }
+            }
+        ],
+        "variables": {
+            "v_trigger_date": {
+                "type": "String"
+            }
+        },
+        "annotations": []
+    }
+}
